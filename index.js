@@ -30,10 +30,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 //Conexion a db
-//const sequelize = require("./db/sequelize.js");
-var db = require("./db/sequelize.js"),
-  sequelize = db.sequelize,
-  Sequelize = db.Sequelize;
+const sequelize = require("./db/sequelize.js");
 const relacionarEntidades = require("./entity/relaciones.js");
 relacionarEntidades();
 //sequelize.sync();

@@ -1,8 +1,8 @@
 // conexion db
-let Sequelize = require("sequelize");
+const { Sequelize } = require("sequelize");
 const pg = require("pg");
 let sequelize;
-var db = {};
+
 if (process.env.DB_TYPE === "mysql") {
   sequelize = new Sequelize(
     process.env.NOMBREBD,
@@ -27,7 +27,5 @@ if (process.env.DB_TYPE === "mysql") {
   );
   //sequelize = new Sequelize(process.env.POSTGRES_URL);
 }
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
-module.exports = db;
+module.exports = sequelize;
