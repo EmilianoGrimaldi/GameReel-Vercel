@@ -14,7 +14,7 @@ if (process.env.DB_TYPE === "mysql") {
     }
   );
 } else if (process.env.DB_TYPE === "postgres") {
-  sequelize = new Sequelize(
+/*   sequelize = new Sequelize(
     process.env.POSTGRES_DATABASE,
     process.env.POSTGRES_USER,
     process.env.POSTGRES_PASSWORD,
@@ -23,8 +23,8 @@ if (process.env.DB_TYPE === "mysql") {
       dialect: process.env.DB_TYPE,
       dialectModule: pg,
     }
-  );
-  //sequelize = new Sequelize(process.env.POSTGRES_URL);
+  ); */
+  sequelize = new Sequelize(process.env.POSTGRES_URL);
 }
 
 module.exports = sequelize;
