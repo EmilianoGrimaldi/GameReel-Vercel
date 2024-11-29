@@ -1,5 +1,5 @@
 //funcion para cambiar el icono según el tema y lo guarda en localStorage.
-function cambiarIconoSegunTema() {
+export function cambiarIconoSegunTema() {
   if (html.getAttribute("data-bs-theme") == "light") {
     iconoToggler.classList.remove("bi-brightness-high-fill");
     iconoToggler.classList.add("bi-moon-stars-fill");
@@ -20,7 +20,7 @@ function cambiarIconoSegunTema() {
 }
 
 //funcion que obtiene el tema del local storage guardado antes y setea el tema de la pagina.
-function temaLocalStorage() {
+export function temaLocalStorage() {
   let tema = localStorage.getItem("theme");
   switch (tema) {
     case "dark":
