@@ -25,6 +25,12 @@ const sequelize = new Sequelize(
     host: process.env.POSTGRES_HOST,
     dialect: process.env.DB_TYPE,
     dialectModule: pg,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 
