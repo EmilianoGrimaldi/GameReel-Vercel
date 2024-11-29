@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-require("dotenv").config();
+//require("dotenv").config();
 
 const http = require("http");
 const { neon } = require("@neondatabase/serverless");
