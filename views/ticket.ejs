@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket de compra</title>
+    <link rel="icon" href="./images/4.webp" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="/css/styles-ticket.css" />
+  </head>
+  <body class="container d-flex align-items-center justify-content-center">
+    <article>
+      <header class="container" id="datosCompra">
+        <div
+          class="row d-flex justify-content-center align-items-center mb-3 mt-3"
+        >
+          <img id="imgLogo" class="col-7" src="/images/4.webp" alt="logo" />
+          <h2 class="col-5">Game Reel</h2>
+        </div>
+        <div class="row">
+          <section class="d-flex justify-content-center">
+            <ul>
+              <li>
+                <h3 class="d-flex justify-content-center mb-3">
+                  Comprobante de pago
+                </h3>
+              </li>
+              <li>
+                <h6>Fecha de compra: <%= venta.FechaVenta %></h6>
+              </li>
+              <li>
+                <h6 id="idVenta">ID de compra: <%= venta.id %></h6>
+              </li>
+              <li>
+                <h6>Cliente: <%= venta.usuario %></h6>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </header>
+      <section class="container" id="detalle-compra">
+        <header class="row">
+          <h3 class="d-flex justify-content-center">Detalle de compra</h3>
+        </header>
+        <section class="p-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% productos.forEach(producto => { %>
+              <tr>
+                <th scope="row"><%= producto.nombre %></th>
+                <td><%= producto.DetalleVenta.cantidad %></td>
+                <td><%= producto.precio %></td>
+                <td><%= producto.DetalleVenta.subtotal %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </section>
+        <footer class="container">
+          <div class="row d-flex align-items-center mb-4">
+            <h4 class="col-6 d-flex justify-content-end">Total:</h4>
+            <h4 class="col-6 d-flex justify-content-start">
+              $<%= venta.total %>
+            </h4>
+          </div>
+          <div class="row mt-2">
+            <div class="col-6 d-flex justify-content-center mb-2">
+              <button class="btn btn-secondary venta" id="<%= venta.id %>">
+                Descargar Ticket
+              </button>
+            </div>
+            <div class="col-6 ticketVolver">
+              <a
+                class="btn btn-secondary"
+                href="/pantalla-productos"
+              >
+                Volver a Inicio
+              </a>
+            </div>
+          </div>
+        </footer>
+      </section>
+    </article>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/js/ticket.js"></script>
+  </body>
+</html>

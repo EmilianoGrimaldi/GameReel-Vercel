@@ -1,0 +1,45 @@
+<div class="container d-flex align-items-center justify-content-center mt-2">
+  <div class="row">
+    <div class="col col-12">
+      <div
+        class="btn-toolbar"
+        role="toolbar"
+        aria-label="Toolbar with button groups"
+      >
+        <div id="btnPaginado" class="btn-group m-2" role="group" aria-label="Second group">
+           <button 
+            id="btnAnterior" 
+            class="btn btn-secondary me-2" 
+            <%= currentPage === 0 ? "disabled" : "" %>
+            <% if (modo === "juegos") { %>
+              onclick="window.location.href='/pantalla-productos/juegos?page=<%=currentPage - 1 %>&size=<%= size %>'">
+            <% } else if (modo === "peliculas") { %>
+              onclick="window.location.href='/pantalla-productos/peliculas?page=<%=currentPage - 1 %>&size=<%= size %>'">
+            <% } else { %>
+              onclick="window.location.href='/pantalla-productos?page=<%=currentPage - 1 %>&size=<%= size %>'">
+             <% } %>
+            Anterior
+          </button>
+
+          <span id="paginas" class="btn btn-primary disabled">
+            Página <%= currentPage + 1 %>
+          </span>
+
+          <button 
+            id="btnSiguiente" 
+            class="btn btn-secondary ms-2" 
+            <%= currentPage >= totalPages - 1 ? "disabled" : "" %>
+            <% if (modo === "juegos") { %>
+              onclick="window.location.href='/pantalla-productos/juegos?page=<%=currentPage+1 %>&size=<%= size %>'">
+            <% } else if (modo === "peliculas") { %>
+              onclick="window.location.href='/pantalla-productos/peliculas?page=<%=currentPage+1 %>&size=<%= size %>'">
+            <% } else { %>
+              onclick="window.location.href='/pantalla-productos?page=<%=currentPage+1 %>&size=<%= size %>'">
+             <% } %>
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

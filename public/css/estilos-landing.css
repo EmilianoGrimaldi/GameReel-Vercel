@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #ececec;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+body.dark-mode {
+  background-color: #242124;
+}
+
+#logo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+}
+
+#icono {
+  display: flex;
+  justify-content: center;
+}
+
+#iconoToggler {
+  font-size: 30px;
+}
+
+#bienvenida {
+  text-align: center;
+}
+body.dark-mode #bienvenida {
+  color: white;
+}
+
+#imagen {
+  text-align: center;
+}
+
+#imagen img {
+  height: 150px;
+  width: 150px;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+}
+
+#formulario {
+  background-color: #dad2bc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 500px;
+  height: 300px;
+  border-radius: 20px;
+  border: 5px solid #242124;
+}
+body.dark-mode #formulario {
+  background-color: #70798c;
+  border: 5px solid #ececec;
+}
+
+#formulario h3 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+body.dark-mode #formulario h3 {
+  color: white;
+}
+
+.form-control {
+  background-color: #ececec;
+}
+
+.form-control:focus {
+  border-color: #242124;
+  box-shadow: 0 0 5px #242124;
+  outline: none;
+}
+
+body.dark-mode .form-control {
+  background-color: #242124;
+}
+body.dark-mode .form-control:focus {
+  border-color: #ececec;
+  box-shadow: 0 0 5px #ececec;
+  outline: none;
+}
+
+.admin a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.btn-primary {
+  --bs-btn-color: white;
+  --bs-btn-border-color: #2c262c;
+  --bs-btn-bg: #2c262c;
+  --bs-btn-hover-bg: #393139;
+  --bs-btn-hover-border-color: #2c262c;
+  --bs-btn-active-bg: #393139;
+  --bs-btn-active-border-color: #2c262c;
+  font-weight: 400;
+}
+
+body.dark-mode .btn-primary {
+  --bs-btn-color: black;
+  --bs-btn-border-color: #dad2bc;
+  --bs-btn-bg: #dad2bc;
+  --bs-btn-hover-bg: #dad2bcc6;
+  --bs-btn-hover-border-color: #dad2bcc6;
+  --bs-btn-active-bg: #dad2bcc6;
+  --bs-btn-active-border-color: #dad2bcc6;
+}
+
+footer {
+  text-align: center;
+  bottom: 0;
+  margin-top: auto;
+}
+
+@media (max-width: 550px) {
+  #imagen {
+    display: none;
+  }
+  .form {
+    margin-top: 15px;
+  }
+}

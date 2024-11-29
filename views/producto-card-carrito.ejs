@@ -1,0 +1,16 @@
+<div
+  class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex flex-column align-items-center mt-4 contenedorJuegos"
+>
+  <div class="row">
+    <%- include('producto-card',producto) %>
+    <div class="d-flex justify-content-center mt-1">
+      <button
+        class="btn btn-primary aniadir"
+        id="<%=producto.id %>"
+        type="button"
+      >
+        <i class="bi bi-cart-plus me-1"></i>Añadir
+      </button>
+    </div>
+  </div>
+</div>
