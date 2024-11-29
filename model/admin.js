@@ -1,6 +1,6 @@
 class Admin {
   correo;
-  contraseña;
+  contrasenia;
 
   constructor() {}
 

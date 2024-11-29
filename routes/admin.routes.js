@@ -75,7 +75,7 @@ router.post("/login", validarIngresoAdmin, async (req, res) => {
       });
     }
 
-    const contraseniaDescifrada = desencriptar(admin.buffer, admin.contraseña);
+    const contraseniaDescifrada = desencriptar(admin.buffer, admin.contrasenia);
 
     if (contrasenia !== contraseniaDescifrada) {
       return res.json({
@@ -114,7 +114,7 @@ router.get("/", async (req, res) => {
 
     await AdminSequelize.create({
       user,
-      contraseña: encriptado,
+      contrasenia: encriptado,
       buffer: iv.toString("hex"),
     });
 

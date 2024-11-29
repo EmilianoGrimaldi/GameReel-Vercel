@@ -9,7 +9,7 @@ const AdminSequelize = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    contraseña: {
+    contrasenia: {
       type: DataTypes.STRING,
       allowNull: false,
     },
