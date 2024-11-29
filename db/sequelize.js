@@ -1,7 +1,8 @@
 // conexion db
-const { Sequelize } = require("sequelize");
+let Sequelize = require("sequelize");
 const pg = require("pg");
 let sequelize;
+var db = {};
 if (process.env.DB_TYPE === "mysql") {
   sequelize = new Sequelize(
     process.env.NOMBREBD,
@@ -14,7 +15,7 @@ if (process.env.DB_TYPE === "mysql") {
     }
   );
 } else if (process.env.DB_TYPE === "postgres") {
-/*   sequelize = new Sequelize(
+  sequelize = new Sequelize(
     process.env.POSTGRES_DATABASE,
     process.env.POSTGRES_USER,
     process.env.POSTGRES_PASSWORD,
@@ -23,8 +24,10 @@ if (process.env.DB_TYPE === "mysql") {
       dialect: process.env.DB_TYPE,
       dialectModule: pg,
     }
-  ); */
-  sequelize = new Sequelize(process.env.POSTGRES_URL);
+  );
+  //sequelize = new Sequelize(process.env.POSTGRES_URL);
 }
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-module.exports = sequelize;
+module.exports = db;
