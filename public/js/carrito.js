@@ -385,3 +385,4 @@ module.exports = {
   cambiarIconoSegunTema,
   temaLocalStorage,
 };
+export { cambiarIconoSegunTema, temaLocalStorage };
