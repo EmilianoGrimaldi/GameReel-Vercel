@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 //process.loadEnvFile();
 // Deshabilitar cors
 app.use((req, res, next) => {
