@@ -12,12 +12,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "babel-loader": "^9.2.1",
-    "nodemon": "^3.1.7",
-    "webpack": "^5.96.1",
-    "webpack-cli": "^5.1.4"
+    "nodemon": "^3.1.7"
   },
   "name": "tp-programacion-iii-espindola-grimaldi-2024-c2",
   "version": "1.0.0",
@@ -26,7 +21,6 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
