@@ -380,3 +380,5 @@ let body = document.querySelector("body");
 let html = document.getElementsByTagName("html")[0];
 let iconoToggler = document.getElementById("iconoToggler");
 iconoToggler.addEventListener("click", cambiarIconoSegunTema);
+
+module.exports = { cambiarIconoSegunTema, temaLocalStorage };
