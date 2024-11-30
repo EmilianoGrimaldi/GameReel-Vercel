@@ -130,7 +130,3 @@ btnAñadir.forEach((boton) => {
     traerProductoPorId(idProducto);
   });
 });
-module.exports = {
-  cambiarIconoSegunTema,
-  temaLocalStorage,
-};
