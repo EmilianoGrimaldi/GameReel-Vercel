@@ -1,4 +1,4 @@
-const funciones = require("./pantalla-productos.js");
+import { cambiarIconoSegunTema, temaLocalStorage } from "./pantalla-productos";
 
 const btnAgregar = document.getElementById("icon");
 const btnEditar = document.querySelectorAll(".btnEditar");
@@ -6,11 +6,11 @@ const btnEliminar = document.querySelectorAll(".btnEliminar");
 const btnActivar = document.querySelectorAll(".btnActivar");
 
 // llamo a la funcion y se la asigno a window.onload (cuando carga la pagina).
-window.onload = funciones.temaLocalStorage;
+window.onload = temaLocalStorage;
 
 //evento click enviado al icono.
 let iconoToggler = document.getElementById("iconoToggler");
-iconoToggler.addEventListener("click", funciones.cambiarIconoSegunTema);
+iconoToggler.addEventListener("click", cambiarIconoSegunTema);
 
 //menu responsive
 const nav = document.getElementById("nav");
