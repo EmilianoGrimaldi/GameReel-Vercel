@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./js/abm.js", // Tu archivo principal
+  entry: "C:/Users/grima/OneDrive/Escritorio/GameReel Vercel/public/js/abm.js", // Tu archivo principal
   output: {
     filename: "bundle.js", // Salida empaquetada
     path: path.resolve(__dirname, "dist"),
