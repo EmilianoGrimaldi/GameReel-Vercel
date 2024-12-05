@@ -73,7 +73,9 @@ const validarCamposProductos = (req, res, next) => {
 
 router.get("/", async (req, res) => {
   try {
-    const productos = await ProductoSequelize.findAll();
+    const productos = await ProductoSequelize.findAll({
+      order: [["id", "ASC"]],
+    });
     res.render("abm", { productos });
   } catch (error) {
     res.json({ mensaje: "Error al mostrar los productos", status: 400 });
