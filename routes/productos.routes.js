@@ -49,6 +49,7 @@ router.get("/juegos", async (req, res) => {
       },
       limit: pageSize,
       offset: currentPage * pageSize,
+      order: [["id", "ASC"]],
     };
 
     const { count, rows } = await ProductoSequelize.findAndCountAll(options);
@@ -82,6 +83,7 @@ router.get("/peliculas", async (req, res) => {
       },
       limit: pageSize,
       offset: currentPage * pageSize,
+      order: [["id", "ASC"]],
     };
 
     const { count, rows } = await ProductoSequelize.findAndCountAll(options);
