@@ -173,10 +173,13 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", uploads.single("portada"), async (req, res) => {
   try {
-    const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
-    const uploadResult = await subirImagenesNube(blob, req.file.originalname);
+    let portada = undefined;
     const { nombre, precio, descripcion } = req.body;
-    const portada = req.file ? uploadResult.url : undefined;
+    if (req.file) {
+      const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
+      const uploadResult = await subirImagenesNube(blob, req.file.originalname);
+      portada = uploadResult.url;
+    }
     const camposActualizados = {
       nombre,
       precio: parseFloat(precio),
