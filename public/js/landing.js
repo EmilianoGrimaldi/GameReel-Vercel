@@ -4,7 +4,7 @@ function alertarNombre() {
   if (nombre != "") {
     //- Hacer una validacion al input -
     localStorage.setItem("nombreUsuario", nombre);
-    location.href = "https://game-reel-vercel.vercel.app/pantalla-productos";
+    location.href = "/pantalla-productos";
   }
 }
 
