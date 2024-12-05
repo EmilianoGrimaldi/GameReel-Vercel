@@ -4,7 +4,7 @@ const Producto = require("../model/producto.js");
 const ProductoSequelize = require("../entity/producto.entity.js");
 const multer = require("multer");
 
-/* const storage = multer.diskStorage({
+const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const mimetype = file.mimetype;
     const [tipo, extension] = mimetype.split("/");
@@ -16,10 +16,9 @@ const multer = require("multer");
     }
   },
   destination: (req, file, callback) => {
-    callback(null, "uploads/");
+    callback(null, "uploads/images/");
   },
-}); */
-const storage = multer.memoryStorage();
+});
 const uploads = multer({ storage: storage });
 
 const validarCamposProductos = (req, res, next) => {
