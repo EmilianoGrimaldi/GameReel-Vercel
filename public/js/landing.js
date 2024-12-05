@@ -5,6 +5,19 @@ function alertarNombre() {
     //- Hacer una validacion al input -
     localStorage.setItem("nombreUsuario", nombre);
     location.href = "/pantalla-productos";
+  } else {
+    Toastify({
+      text: "Debe ingresar un nombre.",
+      duration: 2000,
+      close: true,
+      gravity: "bottom", // top or bottom
+      position: "center", // left, center or right
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        textTransform: "uppercase",
+      },
+      onClick: function () {}, // Callback after click
+    }).showToast();
   }
 }
 

@@ -18,6 +18,19 @@ body.dark-mode {
   background-color: #242124;
 }
 
+.toastify {
+  border-radius: 15px;
+  font-size: 12px;
+  background: #242124;
+  box-shadow: none;
+}
+
+body.dark-mode .toastify {
+  background: #dad2bc;
+  color: black;
+  box-shadow: none;
+}
+
 #logo {
   width: 130px;
   height: 130px;
