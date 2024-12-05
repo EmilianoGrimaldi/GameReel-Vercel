@@ -88,9 +88,16 @@ router.post(
       const resultado = await ProductoSequelize.create({
         ...producto,
       });
-      res
-        .status(200)
-        .json({ mensaje: "Producto agregado con exito", status: 200 });
+
+      if (resultado) {
+        res
+          .status(200)
+          .json({ mensaje: "Producto agregado con exito", status: 200 });
+      } else {
+        res
+          .status(404)
+          .json({ mensaje: "No se pudo agregar el producto", status: 404 });
+      }
     } catch (error) {
       res
         .status(400)
