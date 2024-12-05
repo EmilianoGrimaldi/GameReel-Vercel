@@ -97,6 +97,7 @@ body.dark-mode .carrito {
   padding: 2px 6px;
   border-radius: 5px;
   font-size: 14px;
+  text-decoration: none;
 }
 body.dark-mode .numerito {
   background-color: #a99985;
