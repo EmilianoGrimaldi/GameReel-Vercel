@@ -64,10 +64,12 @@ function createHtmlCarrito() {
               <img class="carritoProductoImagen" src="${element.portada}" alt="${element.nombre}" />
             </div>
             <div class="carritoProductoTitulo">
-              <div class="d-flex">
+              <div class="d-flex justify-content-center">
                 <small>TITULO</small>
+                <div class="d-flex justify-content-center">
+                  <h4>${element.nombre}</h4>
+                </div>
               </div>
-              <h4>${element.nombre}</h4>
             </div>
             <div class="carritoProductoCantidad">
               <small>CANTIDAD</small>
