@@ -90,7 +90,7 @@ router.post(
       const uploadResult = await subirImagenesNube(blob, req.file.originalname);
       const nombre = req.body.nombre;
       const precio = parseFloat(req.body.precio);
-      const portada = uploadResult.url;
+      const portada = req.file ? uploadResult.url : undefined;
       const descripcion = req.body.descripcion;
 
       const producto = new Producto();
@@ -176,7 +176,7 @@ router.put("/:id", uploads.single("portada"), async (req, res) => {
     const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
     const uploadResult = await subirImagenesNube(blob, req.file.originalname);
     const { nombre, precio, descripcion } = req.body;
-    const portada = uploadResult ? uploadResult.url : undefined;
+    const portada = req.file ? uploadResult.url : undefined;
     const camposActualizados = {
       nombre,
       precio: parseFloat(precio),
