@@ -1,7 +1,7 @@
 // conexion db
 const { Sequelize } = require("sequelize");
 const pg = require("pg");
-//let sequelize;
+let sequelize;
 
 if (process.env.DB_TYPE === "mysql") {
   sequelize = new Sequelize(
@@ -15,7 +15,7 @@ if (process.env.DB_TYPE === "mysql") {
     }
   );
 } else if (process.env.DB_TYPE === "postgres") {
-  const sequelize = new Sequelize(
+  sequelize = new Sequelize(
     process.env.POSTGRES_DATABASE,
     process.env.POSTGRES_USER,
     process.env.POSTGRES_PASSWORD,
