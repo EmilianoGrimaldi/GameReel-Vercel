@@ -15,6 +15,7 @@ router.get("/", async (req, res) => {
       where: {
         activo: true,
       },
+      order: [["id", "ASC"]],
     };
 
     const { count, rows } = await ProductoSequelize.findAndCountAll(options);
