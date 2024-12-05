@@ -413,7 +413,7 @@ btnActivar.forEach((boton) => {
 
 async function insertarDatos(formData) {
   try {
-    const pedido = await fetch("https://game-reel-vercel.vercel.app/abm", {
+    const pedido = await fetch("/abm", {
       method: "POST",
       body: formData,
     });
@@ -432,13 +432,10 @@ async function insertarDatos(formData) {
 
 async function editarProducto(formData, idProducto) {
   try {
-    const pedido = await fetch(
-      `https://game-reel-vercel.vercel.app/abm/${idProducto}`,
-      {
-        method: "PUT",
-        body: formData,
-      }
-    );
+    const pedido = await fetch(`/abm/${idProducto}`, {
+      method: "PUT",
+      body: formData,
+    });
     return pedido.json();
   } catch (error) {
     Swal.fire({
@@ -454,12 +451,9 @@ async function editarProducto(formData, idProducto) {
 
 async function eliminarProducto(idProducto) {
   try {
-    const pedido = await fetch(
-      `https://game-reel-vercel.vercel.app/abm/${idProducto}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const pedido = await fetch(`/abm/${idProducto}`, {
+      method: "DELETE",
+    });
     return await pedido.json();
   } catch (error) {
     Swal.fire({
@@ -475,12 +469,9 @@ async function eliminarProducto(idProducto) {
 
 async function reactivarProducto(idProducto) {
   try {
-    const pedido = await fetch(
-      `https://game-reel-vercel.vercel.app/abm/${idProducto}`,
-      {
-        method: "PATCH",
-      }
-    );
+    const pedido = await fetch(`/abm/${idProducto}`, {
+      method: "PATCH",
+    });
     return await pedido.json();
   } catch (error) {
     Swal.fire({
