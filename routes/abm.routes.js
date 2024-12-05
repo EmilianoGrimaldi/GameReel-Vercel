@@ -3,6 +3,7 @@ const router = express.Router();
 const Producto = require("../model/producto.js");
 const ProductoSequelize = require("../entity/producto.entity.js");
 const multer = require("multer");
+const { Blob } = require("buffer"); 
 
 /* const storage = multer.diskStorage({
   filename: (req, file, callback) => {
@@ -21,9 +22,7 @@ const multer = require("multer");
 }); */
 const storage = multer.memoryStorage();
 const uploads = multer({ storage: storage });
-const blobClient = new Blob({
-  token: process.env.BLOB_READ_WRITE_TOKEN, // Obtén este token desde el dashboard de Vercel.
-});
+
 const validarCamposProductos = (req, res, next) => {
   const nombre = req.body.nombre;
   const precio = parseFloat(req.body.precio);
@@ -70,18 +69,14 @@ router.post(
   validarCamposProductos,
   async (req, res) => {
     try {
-      const file = req.file;
-      const blobResponse = await blobClient.put(
-        file.originalname,
-        file.buffer,
-        {
-          contentType: file.mimetype,
-        }
+      const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
+      const uploadResult = await yourUploadFunction(
+        blob,
+        req.file.originalname
       );
-
       const nombre = req.body.nombre;
       const precio = parseFloat(req.body.precio);
-      const portada = blobResponse.url;
+      const portada = uploadResult.url;
       const descripcion = req.body.descripcion;
 
       const producto = new Producto();
