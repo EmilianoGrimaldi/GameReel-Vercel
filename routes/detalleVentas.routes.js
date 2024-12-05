@@ -50,7 +50,7 @@ router.get("/listado", async (req, res) => {
   }
 });
 
-router.get("/pdf/:id", async (req, res) => {
+/* router.get("/pdf/:id", async (req, res) => {
   try {
     const venta = await VentaSequelize.findByPk(req.params.id);
     const productos = await venta.getProductos();
@@ -126,7 +126,7 @@ router.get("/pdf/:id", async (req, res) => {
 
     pagina.drawText(`Total de la venta: $${venta.total}`, {
       x: 50,
-      y: 650,
+      y: 440,
       size: 20,
     });
 
@@ -140,6 +140,98 @@ router.get("/pdf/:id", async (req, res) => {
     res.status(500).send("Error al generar el PDF");
   }
 });
+ */
+router.get("/pdf/:id", async (req, res) => {
+  try {
+    const venta = await VentaSequelize.findByPk(req.params.id);
+    const productos = await venta.getProductos();
+
+    const fecha = new Date(venta.FechaVenta);
+    const opciones = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const fechaFormateada = fecha.toLocaleDateString("es-AR", opciones);
+    const horaFormateada = fecha.toLocaleTimeString("es-AR");
+    const fechaCompleta = `${fechaFormateada}, ${horaFormateada}`;
+
+    const documento = await PDFDocument.create();
+    const pagina = documento.addPage([600, 800]);
+
+    pagina.drawText("GAME REEL", {
+      x: 240,
+      y: 750,
+      size: 20,
+    });
+
+    pagina.drawText("Comprobante de pago", {
+      x: 210,
+      y: 720,
+      size: 16,
+    });
+
+    pagina.drawText(`Fecha de compra: ${fechaCompleta}`, {
+      x: 50,
+      y: 680,
+      size: 14,
+    });
+    pagina.drawText(`ID de compra: ${venta.id}`, { x: 50, y: 660, size: 14 });
+    pagina.drawText(`Cliente: ${venta.usuario}`, { x: 50, y: 640, size: 14 });
+
+    pagina.drawText("Detalle de compra", {
+      x: 210,
+      y: 600,
+      size: 16,
+    });
+
+    pagina.drawText("Producto", { x: 50, y: 570, size: 12 });
+    pagina.drawText("Cantidad", { x: 200, y: 570, size: 12 });
+    pagina.drawText("P. Unitario", { x: 320, y: 570, size: 12 });
+    pagina.drawText("Subtotal", { x: 440, y: 570, size: 12 });
+
+    let y = 550;
+    productos.forEach((producto) => {
+      pagina.drawText(producto.nombre, { x: 50, y, size: 12 });
+      pagina.drawText(`${producto.DetalleVenta.cantidad}`, {
+        x: 200,
+        y,
+        size: 12,
+      });
+      pagina.drawText(`$${producto.precio}`, {
+        x: 320,
+        y,
+        size: 12,
+      });
+      pagina.drawText(`$${producto.DetalleVenta.subtotal}`, {
+        x: 440,
+        y,
+        size: 12,
+      });
+      y -= 20;
+    });
+
+    const margenInferior = 50;
+    const posicionTotalY = margenInferior; 
+
+    pagina.drawText(`Total de la venta: $${venta.total}`, {
+      x: 50,
+      y: posicionTotalY,
+      size: 20,
+    });
+
+    // Exportar PDF
+    const pdfBytes = await documento.save();
+    res.type("application/pdf");
+    res.attachment(`Ticket_${venta.id}.pdf`);
+    res.send(Buffer.from(pdfBytes));
+  } catch (error) {
+    console.error("Error al generar el PDF:", error);
+    res.status(500).send("Error al generar el PDF");
+  }
+});
+
 
 router.get("/:id", async (req, res) => {
   try {
