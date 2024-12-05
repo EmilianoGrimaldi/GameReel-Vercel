@@ -65,7 +65,7 @@ function createHtmlCarrito() {
             </div>
             <div class="carritoProductoTitulo">
               <small>TITULO</small>
-              <h3>${element.nombre}</h3>
+              <h4>${element.nombre}</h4>
             </div>
             <div class="carritoProductoCantidad">
               <small>CANTIDAD</small>
