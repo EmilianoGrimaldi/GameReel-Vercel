@@ -61,7 +61,7 @@ function createHtmlCarrito() {
         <div class="carritoProducto">
           <div class="carritoProductoInfo">
             <div class="divimg">
-              <img class="carritoProductoImagen" src="./uploads/${element.portada}" alt="${element.nombre}" />
+              <img class="carritoProductoImagen" src="${element.portada}" alt="${element.nombre}" />
             </div>
             <div class="carritoProductoTitulo">
               <small>TITULO</small>
