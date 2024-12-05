@@ -28,13 +28,12 @@ async function subirImagenesNube(blob, filename) {
     });
 
     if (!response.url) {
-      throw new Error("Error al obtener la URL del archivo subido");
+      return undefined;
     }
 
     return { url: response.url };
   } catch (error) {
     console.error("Error al subir el archivo a Vercel Blob Storage:", error);
-    throw error;
   }
 }
 
@@ -91,7 +90,7 @@ router.post(
       const uploadResult = await subirImagenesNube(blob, req.file.originalname);
       const nombre = req.body.nombre;
       const precio = parseFloat(req.body.precio);
-      const portada = uploadResult.url;
+      const portada = uploadResult ? uploadResult.url : undefined;
       const descripcion = req.body.descripcion;
 
       const producto = new Producto();
