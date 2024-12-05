@@ -22,14 +22,11 @@ const { Blob } = require("buffer");
 }); */
 const storage = multer.memoryStorage();
 const uploads = multer({ storage: storage });
-const blobClient = new Blob({
-  token: process.env.VERCEL_BLOB_TOKEN, // Obtén este token desde el dashboard de Vercel.
-});
 
 const validarCamposProductos = (req, res, next) => {
   const nombre = req.body.nombre;
   const precio = parseFloat(req.body.precio);
-  const portada = req.file ? req.file.originalname : undefined; // El nombre original se usa como referencia
+  const portada = req.file ? req.file.originalname : undefined;
   const descripcion = req.body.descripcion;
   if (typeof descripcion !== "string" || descripcion.trim() === "") {
     return res.json({
@@ -72,17 +69,14 @@ router.post(
   validarCamposProductos,
   async (req, res) => {
     try {
-      const file = req.file;
-      const blobResponse = await blobClient.put(
-        file.originalname,
-        file.buffer,
-        {
-          contentType: file.mimetype,
-        }
+      const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
+      const uploadResult = await yourUploadFunction(
+        blob,
+        req.file.originalname
       );
       const nombre = req.body.nombre;
       const precio = parseFloat(req.body.precio);
-      const portada = blobResponse.url; // URL pública del archivo en Blob Storage
+      const portada = uploadResult.url;
       const descripcion = req.body.descripcion;
 
       const producto = new Producto();
