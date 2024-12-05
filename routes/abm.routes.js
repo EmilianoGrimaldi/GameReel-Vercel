@@ -128,6 +128,7 @@ router.get("/juegos", async (req, res) => {
       where: {
         descripcion: "Juego",
       },
+      order: [["id", "ASC"]],
     });
     res.render("abm", { productos });
   } catch (error) {
@@ -143,6 +144,7 @@ router.get("/peliculas", async (req, res) => {
       where: {
         descripcion: "Pelicula",
       },
+      order: [["id", "ASC"]],
     });
     res.render("abm", { productos });
   } catch (error) {
