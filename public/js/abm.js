@@ -2,6 +2,8 @@ const btnAgregar = document.getElementById("icon");
 const btnEditar = document.querySelectorAll(".btnEditar");
 const btnEliminar = document.querySelectorAll(".btnEliminar");
 const btnActivar = document.querySelectorAll(".btnActivar");
+const html = document.getElementById("html");
+const body = document.getElementById("body");
 
 function cambiarIconoSegunTema() {
   if (html.getAttribute("data-bs-theme") == "light") {
