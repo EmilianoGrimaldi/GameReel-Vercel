@@ -84,6 +84,11 @@ ul {
   align-items: center;
   gap: 10px;
 }
+
+.derechaNav a {
+  text-decoration: none;
+}
+
 .carrito {
   font-size: 35px;
   color: black;
@@ -97,7 +102,6 @@ body.dark-mode .carrito {
   padding: 2px 6px;
   border-radius: 5px;
   font-size: 14px;
-  text-decoration: none;
 }
 body.dark-mode .numerito {
   background-color: #a99985;
