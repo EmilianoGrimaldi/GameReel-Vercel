@@ -56,7 +56,7 @@ function agregarAlCarrito(producto) {
     text: `"${producto.nombre} agregado al carrito"`,
     duration: 2000,
     close: true,
-    gravity: "top", // `top` or `bottom`
+    gravity: "bottom", // `top` or `bottom`
     position: "right", // `left`, `center` or `right`
     stopOnFocus: true, // Prevents dismissing of toast on hover
     style: {
