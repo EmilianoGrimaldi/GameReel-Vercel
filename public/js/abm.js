@@ -1,9 +1,9 @@
+import { temaLocalStorage, cambiarIconoSegunTema } from "./pantalla-productos";
 const btnAgregar = document.getElementById("icon");
 const btnEditar = document.querySelectorAll(".btnEditar");
 const btnEliminar = document.querySelectorAll(".btnEliminar");
 const btnActivar = document.querySelectorAll(".btnActivar");
 
-import { temaLocalStorage, cambiarIconoSegunTema } from "./pantalla-productos";
 
 // llamo a la funcion y se la asigno a window.onload (cuando carga la pagina).
 window.onload = temaLocalStorage;
