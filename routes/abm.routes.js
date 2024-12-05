@@ -23,7 +23,7 @@ const { put } = require("@vercel/blob");
 
 async function subirImagenesNube(blob, filename) {
   try {
-    const response = await Blob.put(filename, blob, {
+    const response = await put(filename, blob, {
       access: "public",
     });
 
