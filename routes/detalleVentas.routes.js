@@ -98,7 +98,7 @@ router.get("/pdf/:id", async (req, res) => {
     pagina.drawText("Producto", { x: 50, y: 570, size: 12 });
     pagina.drawText("Cantidad", { x: 200, y: 570, size: 12 });
     pagina.drawText("P. Unitario", { x: 320, y: 570, size: 12 });
-    pagina.drawText("Subtotal", { x: 440, y: 570, size: 12 });
+    pagina.drawText("Subtotal", { x: 440, y: 1000, size: 12 });
 
     let y = 550;
     productos.forEach((producto) => {
