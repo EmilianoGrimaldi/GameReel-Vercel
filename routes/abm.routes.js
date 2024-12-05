@@ -115,7 +115,7 @@ router.post(
       }
     } catch (error) {
       res.status(400).json({
-        mensaje: `Error al agregar el producto. ${error.message}`,
+        mensaje: `Error al agregar el producto`,
         status: 400,
       });
     }
@@ -201,7 +201,10 @@ router.put("/:id", uploads.single("portada"), async (req, res) => {
         .json({ mensaje: "Se pudo modificar con exito", status: 200 });
     }
   } catch (error) {
-    res.status(400).json({ mensaje: "Error al editar productos", status: 400 });
+    res.status(400).json({
+      mensaje: `Error al editar productos. ${error.message}`,
+      status: 400,
+    });
   }
 });
 
