@@ -126,7 +126,7 @@ router.get("/pdf/:id", async (req, res) => {
 
     pagina.drawText(`Total de la venta: $${venta.total}`, {
       x: 50,
-      y: 900,
+      y: 800,
       size: 20,
     });
 
