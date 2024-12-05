@@ -1,7 +1,7 @@
 function alertarNombre() {
   let nombre = document.getElementById("inputNombre").value;
 
-  if (nombre != "") {
+  if (nombre !== "") {
     //- Hacer una validacion al input -
     localStorage.setItem("nombreUsuario", nombre);
     location.href = "/pantalla-productos";
