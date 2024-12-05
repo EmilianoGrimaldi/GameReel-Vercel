@@ -20,6 +20,24 @@ const { Blob } = require("buffer");
     callback(null, "uploads/images/");
   },
 }); */
+
+async function subirImagenesNube(blob, filename) {
+  try {
+    const response = await Blob.put(filename, blob, {
+      access: "public",
+    });
+
+    if (!response.url) {
+      throw new Error("Error al obtener la URL del archivo subido");
+    }
+
+    return { url: response.url }; 
+  } catch (error) {
+    console.error("Error al subir el archivo a Vercel Blob Storage:", error);
+    throw error;
+  }
+}
+
 const storage = multer.memoryStorage();
 const uploads = multer({ storage: storage });
 
@@ -70,10 +88,7 @@ router.post(
   async (req, res) => {
     try {
       const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
-      const uploadResult = await yourUploadFunction(
-        blob,
-        req.file.originalname
-      );
+      const uploadResult = await subirImagenesNube(blob, req.file.originalname);
       const nombre = req.body.nombre;
       const precio = parseFloat(req.body.precio);
       const portada = uploadResult.url;
@@ -99,12 +114,10 @@ router.post(
           .json({ mensaje: "No se pudo agregar el producto", status: 404 });
       }
     } catch (error) {
-      res
-        .status(400)
-        .json({
-          mensaje: `Error al agregar el producto. ${error.message}`,
-          status: 400,
-        });
+      res.status(400).json({
+        mensaje: `Error al agregar el producto. ${error.message}`,
+        status: 400,
+      });
     }
   }
 );
