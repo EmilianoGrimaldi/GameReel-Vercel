@@ -43,7 +43,7 @@ const uploads = multer({ storage: storage });
 const validarCamposProductos = (req, res, next) => {
   const nombre = req.body.nombre;
   const precio = parseFloat(req.body.precio);
-  const portada = req.file ? req.file.originalname : undefined;
+  const portada = req.file;
   const descripcion = req.body.descripcion;
   if (typeof descripcion !== "string" || descripcion.trim() === "") {
     return res.json({
@@ -61,7 +61,7 @@ const validarCamposProductos = (req, res, next) => {
       status: 400,
     });
   }
-  if (portada === undefined) {
+  if (!portada) {
     return res.json({
       mensaje: "Error, el campo imagen es obligatorio",
       status: 400,
@@ -90,7 +90,7 @@ router.post(
       const uploadResult = await subirImagenesNube(blob, req.file.originalname);
       const nombre = req.body.nombre;
       const precio = parseFloat(req.body.precio);
-      const portada = uploadResult ? uploadResult.url : undefined;
+      const portada = uploadResult.url;
       const descripcion = req.body.descripcion;
 
       const producto = new Producto();
