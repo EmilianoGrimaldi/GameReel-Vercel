@@ -101,7 +101,10 @@ router.post(
     } catch (error) {
       res
         .status(400)
-        .json({ mensaje: "Error al agregar el producto", status: 400 });
+        .json({
+          mensaje: `Error al agregar el producto. ${error.message}`,
+          status: 400,
+        });
     }
   }
 );
