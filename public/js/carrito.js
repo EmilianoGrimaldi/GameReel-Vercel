@@ -67,7 +67,7 @@ function createHtmlCarrito() {
               <div class="d-flex flex-column align-items-center">
                 <small>TITULO</small>
                 <div class="d-flex justify-content-center">
-                  <h4>${element.nombre}</h4>
+                  <h5>${element.nombre}</h5>
                 </div>
               </div>
             </div>
