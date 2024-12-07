@@ -82,15 +82,17 @@
           <h4 class="col-6 text-start">$<%= venta.total %></h4>
         </div>
         <div class="row">
-          <div class="col-6 text-center mb-2">
-            <button class="btn btn-secondary venta w-100" id="<%= venta.id %>">
-              Descargar Ticket
-            </button>
-          </div>
-          <div class="col-6 text-center">
-            <a class="btn btn-secondary w-100" href="/pantalla-productos">
-              Volver a Inicio
-            </a>
+          <div class="row g-2 align-items-stretch">
+            <div class="col-6 text-center d-grid">
+              <button class="btn btn-secondary venta" id="<%= venta.id %>">
+                Descargar Ticket
+              </button>
+            </div>
+            <div class="col-6 text-center d-grid">
+              <a class="btn btn-secondary" href="/pantalla-productos">
+                Volver a Inicio
+              </a>
+            </div>
           </div>
         </div>
       </footer>
