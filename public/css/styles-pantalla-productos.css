@@ -352,9 +352,36 @@ footer p {
     background-color: transparent;
     margin-right: 10px;
   }
-  @media (max-width: 320px) {
+
+  header {
+    padding-inline: 15px;
+  }
+  #rowContenedor {
+    padding-inline: 15px;
+  }
+
+  @media (max-width: 429px) {
     #contenedor {
       display: block;
+    }
+    header {
+      display: flex;
+      flex-direction: column;
+    }
+    .izquierdaNav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .derechaNav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .abrirMenu {
+      margin-right: 0;
     }
   }
 
