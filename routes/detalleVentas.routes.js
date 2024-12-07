@@ -147,6 +147,7 @@ router.get("/pdf/:id", async (req, res) => {
     const productos = await venta.getProductos();
 
     const fecha = new Date(venta.FechaVenta);
+    fecha.setHours(fecha.getHours() - 3);
     const opciones = {
       weekday: "long",
       year: "numeric",
@@ -154,7 +155,9 @@ router.get("/pdf/:id", async (req, res) => {
       day: "numeric",
     };
     const fechaFormateada = fecha.toLocaleDateString("es-AR", opciones);
-    const horaFormateada = fecha.toLocaleTimeString("es-AR");
+    const horaFormateada = fecha.toLocaleTimeString("es-AR", {
+      hour12: false,
+    });
     const fechaCompleta = `${fechaFormateada}, ${horaFormateada}`;
 
     const documento = await PDFDocument.create();
@@ -213,7 +216,7 @@ router.get("/pdf/:id", async (req, res) => {
     });
 
     const margenInferior = 50;
-    const posicionTotalY = margenInferior; 
+    const posicionTotalY = margenInferior;
 
     pagina.drawText(`Total de la venta: $${venta.total}`, {
       x: 50,
@@ -232,7 +235,6 @@ router.get("/pdf/:id", async (req, res) => {
   }
 });
 
-
 router.get("/:id", async (req, res) => {
   try {
     const venta = await VentaSequelize.findByPk(req.params.id);
@@ -240,6 +242,8 @@ router.get("/:id", async (req, res) => {
     const ventaJSON = venta.toJSON();
 
     const fecha = new Date(ventaJSON.FechaVenta);
+    fecha.setHours(fecha.getHours() - 3);
+
     const opciones = {
       weekday: "long",
       year: "numeric",
@@ -247,7 +251,9 @@ router.get("/:id", async (req, res) => {
       day: "numeric",
     };
     const fechaFormateada = fecha.toLocaleDateString("es-AR", opciones);
-    const horaFormateada = fecha.toLocaleTimeString("es-AR");
+    const horaFormateada = fecha.toLocaleTimeString("es-AR", {
+      hour12: false,
+    });
 
     const fechaCompleta = `${fechaFormateada}, ${horaFormateada}`;
 
