@@ -52,26 +52,28 @@
           <h3 class="d-flex justify-content-center">Detalle de compra</h3>
         </header>
         <section class="p-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Precio Unitario</th>
-                <th scope="col">Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% productos.forEach(producto => { %>
-              <tr>
-                <th scope="row"><%= producto.nombre %></th>
-                <td><%= producto.DetalleVenta.cantidad %></td>
-                <td><%= producto.precio %></td>
-                <td><%= producto.DetalleVenta.subtotal %></td>
-              </tr>
-              <% }); %>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Precio Unitario</th>
+                  <th scope="col">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% productos.forEach(producto => { %>
+                <tr>
+                  <th scope="row"><%= producto.nombre %></th>
+                  <td><%= producto.DetalleVenta.cantidad %></td>
+                  <td><%= producto.precio %></td>
+                  <td><%= producto.DetalleVenta.subtotal %></td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
         </section>
         <footer class="container">
           <div class="row d-flex align-items-center mb-4">
