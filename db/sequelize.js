@@ -32,3 +32,5 @@ if (process.env.DB_TYPE === "mysql") {
     }
   );
 }
+
+module.exports = sequelize;
