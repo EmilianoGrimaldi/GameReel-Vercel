@@ -1,4 +1,3 @@
-// db/sequelize.js
 const { Sequelize } = require("sequelize");
 const pg = require("pg");
 let sequelize;
@@ -21,27 +20,23 @@ if (process.env.DB_TYPE === "mysql") {
     process.env.POSTGRES_PASSWORD,
     {
       host: process.env.POSTGRES_HOST,
-      dialect: process.env.DB_TYPE,
+      dialect: "postgres", // Forzamos el string directo para evitar errores de env
       dialectModule: pg,
-      // // --- INICIO DE LA SOLUCIÓN ---
-      // // 1. Configuración del Pool para Serverless:
-      // // Evita mantener conexiones abiertas innecesariamente y espera más tiempo.
-      // pool: {
-      //   max: 2,         // Mantenlo bajo en Vercel para no saturar la base de datos
-      //   min: 0,         // Mínimo 0 para desconectar cuando no se use
-      //   idle: 10000,    // Desconectar tras 10 segundos de inactividad
-      //   acquire: 60000, // IMPORTANTE: Esperar hasta 60 segundos a que la BD responda
-      // },
+      pool: {
+        max: 2,          // Máximo 2 conexiones para no saturar Vercel
+        min: 0,
+        idle: 5000,      // Liberar conexión tras 5 seg de inactividad
+        acquire: 60000,  // IMPORTANTE: Esperar hasta 60s si la BD está "durmiendo"
+      },
       dialectOptions: {
         ssl: {
           require: true,
           rejectUnauthorized: false,
         },
-        // 2. Aumentar el tiempo de espera de conexión TCP:
-        //connectionTimeoutMillis: 30000, // Esperar 30 segundos antes de tirar error de red
+        connectionTimeoutMillis: 30000, // 30s de timeout de red
+        keepAlive: true, // Mantiene la conexión viva
       },
-      // --- FIN DE LA SOLUCIÓN ---
-      //logging: false, // Opcional: limpia la consola de logs SQL
+      logging: false,
     }
   );
 }
