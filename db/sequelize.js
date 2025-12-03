@@ -1,4 +1,4 @@
-// conexion db
+// db/sequelize.js
 const { Sequelize } = require("sequelize");
 const pg = require("pg");
 let sequelize;
@@ -23,11 +23,20 @@ if (process.env.DB_TYPE === "mysql") {
       host: process.env.POSTGRES_HOST,
       dialect: process.env.DB_TYPE,
       dialectModule: pg,
+      // Configuración del Pool para Serverless (IMPORTANTE)
+      pool: {
+        max: 5,     // Máximo de conexiones
+        min: 0,     // Mínimo 0 para que no mantenga conexiones abiertas innecesariamente en serverless
+        acquire: 30000, // Tiempo máximo (ms) para intentar conectar antes de tirar error (30 seg)
+        idle: 10000  // Tiempo (ms) para liberar conexión si no se usa
+      },
       dialectOptions: {
         ssl: {
           require: true,
           rejectUnauthorized: false,
         },
+        // Aumentar timeout de conexión para bases de datos que "duermen"
+        connectionTimeoutMillis: 10000, 
       },
     }
   );
