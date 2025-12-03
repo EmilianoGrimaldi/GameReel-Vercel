@@ -1,4 +1,4 @@
-db/sequelize.js
+//db/sequelize.js
 const { Sequelize } = require("sequelize");
 const pg = require("pg");
 let sequelize;
