@@ -69,6 +69,25 @@ let html = document.getElementsByTagName("html")[0];
 let iconoToggler = document.getElementById("iconoToggler");
 iconoToggler.addEventListener("click", cambiarIconoSegunTema);
 
+// Prevenir el envío del formulario por defecto
+let formulario = document.getElementById("formulario");
+formulario.addEventListener("submit", function(e) {
+  e.preventDefault(); // Previene el recarga de página
+  alertarNombre(); // Ejecuta la función
+});
+
+// Evento para cuando se presiona Enter en el input
+let inputNombre = document.getElementById("inputNombre");
+inputNombre.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    e.preventDefault(); // Previene el envío del formulario
+    alertarNombre(); // Ejecuta la función
+  }
+});
+
 //evento click asociado al boton aceptar del form.
 let btnAceptar = document.getElementById("btnAceptar");
-btnAceptar.addEventListener("click", alertarNombre);
+btnAceptar.addEventListener("click", function(e) {
+  e.preventDefault(); // Previene cualquier comportamiento por defecto
+  alertarNombre();
+});
