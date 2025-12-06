@@ -51,6 +51,7 @@ relacionarEntidades();
 
 // Sincronización lazy - solo en desarrollo o cuando sea necesario
 // En producción/Vercel, las tablas ya deben existir
+// IMPORTANTE: NUNCA hacer sync en producción - usar migraciones
 if (process.env.NODE_ENV !== "production" && process.env.SYNC_DB === "true") {
   sequelize.ensureConnection().then(() => {
     sequelize.sync({ alter: false }).catch((err) => {
@@ -58,6 +59,13 @@ if (process.env.NODE_ENV !== "production" && process.env.SYNC_DB === "true") {
     });
   }).catch((err) => {
     console.error("Error al conectar antes de sincronizar:", err.message);
+  });
+} else {
+  // En producción, solo asegurar conexión sin sync
+  // Las tablas deben existir (creadas con migraciones)
+  sequelize.ensureConnection().catch((err) => {
+    console.error("Error al conectar con la base de datos:", err.message);
+    // No bloquear el inicio, pero loguear el error
   });
 }
 

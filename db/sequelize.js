@@ -125,10 +125,18 @@ function getSequelize() {
   }
 
   // Manejo de errores de conexión
-  sequelize.connectionManager.pool.on("error", (err) => {
-    console.error("❌ Error en el pool de conexiones:", err);
-    isAuthenticated = false; // Resetear estado de autenticación
-  });
+  // El pool se inicializa de forma lazy, así que configuramos el listener después de la primera conexión
+  // Por ahora, solo agregamos el listener si el pool ya existe
+  try {
+    if (sequelize.connectionManager && sequelize.connectionManager.pool) {
+      sequelize.connectionManager.pool.on("error", (err) => {
+        console.error("❌ Error en el pool de conexiones:", err);
+        isAuthenticated = false; // Resetear estado de autenticación
+      });
+    }
+  } catch (error) {
+    // El pool aún no está inicializado, se configurará en ensureConnection
+  }
 
   return sequelize;
 }
@@ -157,6 +165,19 @@ async function ensureConnection() {
       await sequelize.authenticate();
       isAuthenticated = true;
       console.log("✅ Conexión a la base de datos establecida correctamente");
+      
+      // Configurar el listener del pool después de que se inicialice
+      try {
+        if (sequelize.connectionManager && sequelize.connectionManager.pool) {
+          sequelize.connectionManager.pool.on("error", (err) => {
+            console.error("❌ Error en el pool de conexiones:", err);
+            isAuthenticated = false; // Resetear estado de autenticación
+          });
+        }
+      } catch (poolError) {
+        // Ignorar errores al configurar el listener
+      }
+      
       return sequelize;
     } catch (err) {
       isAuthenticated = false;
