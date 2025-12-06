@@ -50,7 +50,10 @@ Configuración principal de Sequelize con:
 - Pool máximo de 1 conexión (serverless)
 - Timeouts reducidos (10s acquire, 5s idle)
 - Manejo de errores robusto
-- SSL automático en producción
+- SSL condicional (solo en producción)
+- Listeners de pool configurados después de autenticación
+- Reintentos automáticos (max: 2)
+- Conexión lazy evita timeouts en inicio
 
 #### `runMigrations.js`
 Script para ejecutar migraciones programáticamente:
@@ -301,21 +304,33 @@ Administradores (independiente)
 
 ### Serverless Functions
 
-- **Pool reducido:** Máximo 1 conexión
-- **Conexión lazy:** Solo cuando se necesita
-- **Timeouts cortos:** 10s acquire, 5s idle
-- **Manejo de errores:** No termina el proceso
+- **Pool reducido:** Máximo 1 conexión (óptimo para serverless)
+- **Conexión lazy:** Solo cuando se necesita (evita timeouts en inicio)
+- **Timeouts cortos:** 10s acquire, 5s idle (reducidos de 30s/10s)
+- **Manejo de errores:** No termina el proceso en producción
+- **Reintentos automáticos:** Máximo 2 intentos en caso de fallo
+- **Listeners de pool:** Configurados después de la autenticación
 
 ### Almacenamiento
 
 - **Vercel Blob Storage:** Imágenes en la nube
 - **No filesystem:** Todo en memoria o cloud
+- **Multer memory storage:** Archivos en memoria antes de subir
 
 ### Migraciones
 
 - **Ejecución programática:** No requiere Sequelize CLI
 - **Idempotentes:** Seguras de ejecutar múltiples veces
 - **Rastreo:** Tabla `SequelizeMeta`
+- **Async/Await:** Manejo correcto de promesas para serverless
+- **Códigos de salida:** 0 en éxito, 1 en error
+
+### Manejo de Errores
+
+- **Unhandled Rejection:** Capturados y logueados
+- **Uncaught Exception:** Manejo diferenciado por entorno
+- **Pool Errors:** Listeners configurados correctamente
+- **No bloqueante:** Errores no terminan el proceso en producción
 
 ---
 

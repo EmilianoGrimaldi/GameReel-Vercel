@@ -219,6 +219,7 @@ git push origin main
 **Solución:**
 - Verifica que `package.json` tenga todas las dependencias
 - Asegúrate de que `node_modules` no esté en `.gitignore` (no debería estar)
+- Ejecuta `npm install` localmente para verificar
 
 ### Error: "Connection timeout"
 
@@ -227,7 +228,18 @@ git push origin main
 **Solución:**
 - Verifica que `POSTGRES_URL` esté correctamente configurada
 - Asegúrate de que la base de datos permita conexiones desde Vercel
+- Verifica que `NODE_ENV=production` esté configurado
 - Revisa los logs de Vercel para más detalles
+- El pool está optimizado (max: 1 conexión) para serverless
+
+### Error: "pool.on is not a function"
+
+**Problema:** El pool no está inicializado.
+
+**Solución:**
+- ✅ **Corregido en v1.0.0:** El listener se configura después de la autenticación
+- Si persiste, verifica que estés usando la última versión del código
+- El código maneja correctamente la inicialización lazy del pool
 
 ### Error: "Table does not exist"
 
@@ -240,22 +252,47 @@ vercel env pull .env.production
 npm run migrate
 ```
 
+O agregar al build command:
+```bash
+npm install && npm run migrate
+```
+
 ### Error: "BLOB_READ_WRITE_TOKEN is not defined"
 
 **Problema:** Token de Blob Storage no configurado.
 
 **Solución:**
 - Verifica que el token esté en las variables de entorno
-- Asegúrate de que el Blob Store esté creado
+- Asegúrate de que el Blob Store esté creado en Vercel
+- Revisa que el nombre de la variable sea exactamente `BLOB_READ_WRITE_TOKEN`
 
 ### Error: "Function exceeded maximum duration"
 
 **Problema:** Timeout en funciones serverless.
 
 **Solución:**
-- Optimiza las consultas a la base de datos
-- Considera usar conexiones persistentes (ya implementado)
+- ✅ **Optimizado:** Pool reducido y timeouts ajustados
+- La conexión es lazy (solo cuando se necesita)
 - Revisa la configuración del pool en `db/sequelize.js`
+- Considera optimizar consultas complejas
+
+### Error: "sync() ejecutándose en producción"
+
+**Problema:** Se intenta sincronizar tablas en producción.
+
+**Solución:**
+- ✅ **Corregido en v1.0.0:** `sync()` solo se ejecuta en desarrollo
+- Verifica que `NODE_ENV=production` esté configurado
+- Las tablas deben crearse con migraciones, no con sync
+
+### Error: "SequelizeConnectionAcquireTimeoutError"
+
+**Problema:** Pool de conexiones agotado.
+
+**Solución:**
+- El pool está configurado para 1 conexión máxima (óptimo para serverless)
+- Verifica que no haya conexiones colgadas
+- Revisa los logs para identificar el problema específico
 
 ---
 

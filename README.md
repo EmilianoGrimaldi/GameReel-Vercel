@@ -13,18 +13,21 @@
 - [Despliegue en Vercel](#-despliegue-en-vercel)
 - [Scripts Disponibles](#-scripts-disponibles)
 - [Modelos de Datos](#-modelos-de-datos)
+- [Optimizaciones para Vercel](#-optimizaciones-para-vercel)
 - [Troubleshooting](#-troubleshooting)
+- [Changelog](#-changelog)
 
 ## 🚀 Características
 
 ### 🛒 Experiencia de Usuario
 
-- **Landing Page:** Página de bienvenida con ingreso de nombre de usuario
+- **Landing Page:** Página de bienvenida con ingreso de nombre de usuario y diseño centrado
 - **Catálogo de Productos:** Visualización de juegos y películas con paginación (`/pantalla-productos`)
 - **Filtros:** Separación entre juegos (`/pantalla-productos/juegos`) y películas (`/pantalla-productos/peliculas`)
 - **Carrito de Compras:** Gestión de pedidos y selección de productos (`/carrito`)
 - **Generación de Tickets:** Creación automática de comprobantes de compra en formato **PDF** utilizando `pdf-lib` (`/ticket/:id`)
 - **Tema Claro/Oscuro:** Toggle de tema con persistencia en localStorage
+- **Diseño Responsive:** Adaptado para dispositivos móviles y desktop
 
 ### 🛠️ Panel de Administración (Backoffice)
 
@@ -33,18 +36,19 @@
 - **Reportes:** Exportación de datos y listados en formato **Excel** (`xlsx`)
 - **Gestión de Imágenes:** Carga de imágenes de productos soportada por `@vercel/blob` para almacenamiento en la nube
 - **Soft Delete:** Los productos se desactivan en lugar de eliminarse físicamente
+- **Validación de Formularios:** Validación completa en frontend y backend
 
 ## 🛠️ Tecnologías Utilizadas
 
 ### Backend
 - **Node.js** - Entorno de ejecución
 - **Express.js** - Framework web
-- **Sequelize** - ORM para gestión de base de datos
+- **Sequelize v6.37.5** - ORM para gestión de base de datos
 - **Multer** - Manejo de archivos multipart/form-data
-- **@vercel/blob** - Almacenamiento de archivos en la nube
+- **@vercel/blob v0.27.0** - Almacenamiento de archivos en la nube
 
 ### Frontend
-- **EJS** - Motor de plantillas
+- **EJS v3.1.10** - Motor de plantillas
 - **HTML5, CSS3** - Estructura y estilos
 - **Bootstrap 5** - Framework CSS
 - **Toastify.js** - Notificaciones toast
@@ -56,13 +60,14 @@
 - **Desarrollo:** MySQL (`mysql2` v3.11.5)
 
 ### Utilidades
-- **pdf-lib** - Generación de PDFs
-- **xlsx** - Exportación a Excel
-- **crypto** - Encriptación de contraseñas
+- **pdf-lib v1.17.1** - Generación de PDFs
+- **xlsx v0.18.5** - Exportación a Excel
+- **crypto** (Node.js built-in) - Encriptación de contraseñas
 
 ### Despliegue
 - **Vercel** - Plataforma de hosting serverless
 - **Vercel Blob Storage** - Almacenamiento de imágenes
+- **Vercel Postgres** - Base de datos PostgreSQL gestionada
 
 ## 📂 Estructura del Proyecto
 
@@ -77,7 +82,12 @@ GameReel-Vercel/
 │   │   ├── 20250106000004-create-detalle-ventas.js
 │   │   └── README.md
 │   ├── runMigrations.js        # Script para ejecutar migraciones
-│   └── sequelize.js            # Configuración de conexión Sequelize
+│   └── sequelize.js            # Configuración optimizada de conexión
+│
+├── docs/                        # Documentación completa
+│   ├── API.md                  # Documentación de API
+│   ├── ARCHITECTURE.md         # Arquitectura del proyecto
+│   └── DEPLOYMENT.md           # Guía de despliegue
 │
 ├── entity/                      # Modelos de Sequelize (Entidades)
 │   ├── admin.entity.js
@@ -96,7 +106,7 @@ GameReel-Vercel/
 │   ├── admin.routes.js         # Autenticación de administradores
 │   ├── detalleVentas.routes.js # Tickets y reportes
 │   ├── productos.routes.js     # Catálogo público de productos
-│   └── ventas.routes.js         # Procesamiento de ventas
+│   └── ventas.routes.js        # Procesamiento de ventas
 │
 ├── views/                       # Plantillas EJS
 │   ├── abm.ejs                 # Panel de administración
@@ -111,12 +121,11 @@ GameReel-Vercel/
 │   ├── landing-page.html        # Página de inicio
 │   └── login-administrador.html # Login de admin
 │
-├── uploads/                     # Archivos subidos (local, no usado en producción)
-│
 ├── index.js                     # Punto de entrada de la aplicación
 ├── vercel.json                  # Configuración de Vercel
 ├── .sequelizerc                 # Configuración de Sequelize CLI
-└── package.json                 # Dependencias y scripts
+├── package.json                 # Dependencias y scripts
+└── README.md                    # Este archivo
 ```
 
 ## ⚙️ Instalación y Configuración
@@ -181,6 +190,15 @@ BLOB_READ_WRITE_TOKEN=tu_token_vercel_blob
 CLAVE_SECRETA=tu_clave_secreta_de_32_bytes_aqui
 ```
 
+**Generar CLAVE_SECRETA:**
+```bash
+# En Node.js
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+# O en línea de comandos (Linux/Mac)
+openssl rand -hex 32
+```
+
 ### 4. Ejecutar Migraciones
 
 Antes de iniciar la aplicación, ejecuta las migraciones para crear las tablas:
@@ -233,171 +251,48 @@ Las migraciones se ejecutan en el siguiente orden:
 - ✅ **Rastreo:** Usa la tabla `SequelizeMeta` para registrar migraciones ejecutadas
 - ✅ **Relaciones:** Foreign keys con CASCADE para integridad referencial
 - ✅ **Índices:** Optimización de consultas en tablas relacionadas
+- ✅ **Async/Await:** Manejo correcto de promesas para entornos serverless
 
 Para más información, consulta [`db/migrations/README.md`](db/migrations/README.md)
 
 ## 📡 Documentación de la API
 
-### Rutas Públicas
+Para la documentación completa de la API, consulta [`docs/API.md`](docs/API.md)
 
-#### Productos
+### Resumen de Endpoints
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/pantalla-productos` | Lista todos los productos activos (paginado) |
-| GET | `/pantalla-productos/juegos` | Lista solo juegos (paginado) |
-| GET | `/pantalla-productos/peliculas` | Lista solo películas (paginado) |
-| GET | `/pantalla-productos/:id` | Obtiene un producto por ID |
+#### Rutas Públicas
+- `GET /pantalla-productos` - Lista productos (paginado)
+- `GET /pantalla-productos/juegos` - Lista solo juegos
+- `GET /pantalla-productos/peliculas` - Lista solo películas
+- `GET /pantalla-productos/:id` - Obtiene un producto
+- `POST /carrito` - Crea una nueva venta
+- `GET /ticket/:id` - Vista HTML del ticket
+- `GET /ticket/pdf/:id` - Descarga PDF del ticket
+- `GET /ticket/listado` - Descarga Excel con todas las ventas
 
-**Query Parameters:**
-- `page` (default: 0) - Número de página
-- `size` (default: 4) - Tamaño de página
-
-**Ejemplo:**
-```bash
-GET /pantalla-productos?page=0&size=4
-```
-
-#### Ventas
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/carrito` | Crea una nueva venta |
-
-**Body:**
-```json
-{
-  "usuario": "Nombre del cliente",
-  "carrito": [
-    {
-      "id": 1,
-      "precio": 59.99,
-      "cantidad": 2
-    }
-  ]
-}
-```
-
-**Response:**
-```json
-{
-  "ventaId": 123
-}
-```
-
-#### Tickets
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/ticket/:id` | Renderiza el ticket de una venta (HTML) |
-| GET | `/ticket/pdf/:id` | Genera y descarga el ticket en PDF |
-| GET | `/ticket/listado` | Descarga un Excel con todas las ventas |
-
-### Rutas de Administración
-
-#### ABM (Altas, Bajas y Modificaciones)
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/abm` | Lista todos los productos (admin) |
-| GET | `/abm/juegos` | Lista solo juegos (admin) |
-| GET | `/abm/peliculas` | Lista solo películas (admin) |
-| GET | `/abm/:id` | Obtiene un producto por ID |
-| POST | `/abm` | Crea un nuevo producto |
-| PUT | `/abm/:id` | Actualiza un producto |
-| DELETE | `/abm/:id` | Desactiva un producto (soft delete) |
-| PATCH | `/abm/:id` | Reactiva un producto |
-
-**POST /abm Body (multipart/form-data):**
-```
-nombre: string (requerido)
-precio: number (requerido, > 0)
-descripcion: "Juego" | "Pelicula" (requerido)
-portada: File (requerido, imagen)
-```
-
-**PUT /abm/:id Body (multipart/form-data):**
-```
-nombre: string (opcional)
-precio: number (opcional)
-descripcion: string (opcional)
-portada: File (opcional)
-```
-
-#### Autenticación
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/admin/login` | Autentica un administrador |
-| GET | `/admin` | Crea el primer administrador (solo si no existe) |
-
-**POST /admin/login Body:**
-```json
-{
-  "user": "admin",
-  "contrasenia": "password"
-}
-```
-
-**Response:**
-```json
-{
-  "mensaje": "Inicio de sesión exitoso.",
-  "status": 200
-}
-```
+#### Rutas de Administración
+- `GET /abm` - Lista todos los productos (admin)
+- `POST /abm` - Crea un producto
+- `PUT /abm/:id` - Actualiza un producto
+- `DELETE /abm/:id` - Desactiva un producto
+- `PATCH /abm/:id` - Reactiva un producto
+- `POST /admin/login` - Autentica un administrador
 
 ## ☁️ Despliegue en Vercel
 
-### Prerrequisitos
+Para una guía detallada de despliegue, consulta [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
 
-1. Cuenta en [Vercel](https://vercel.com)
-2. Base de datos PostgreSQL (Vercel Postgres, Neon, Supabase, etc.)
-3. Token de Vercel Blob Storage
+### Resumen Rápido
 
-### Pasos para Desplegar
-
-1. **Conectar Repositorio:**
-   - Conecta tu repositorio de GitHub a Vercel
-   - O usa Vercel CLI: `vercel`
-
+1. **Conectar Repositorio** a Vercel
 2. **Configurar Variables de Entorno:**
-   En el panel de Vercel, agrega las siguientes variables:
-
-   ```
-   POSTGRES_URL=postgres://...
-   BLOB_READ_WRITE_TOKEN=vercel_blob_...
-   CLAVE_SECRETA=tu_clave_secreta_32_bytes
-   NODE_ENV=production
-   ```
-
-3. **Ejecutar Migraciones:**
-   
-   **Opción 1: Build Command**
-   - En la configuración de Vercel, agrega al Build Command:
-   ```bash
-   npm install && npm run migrate && npm run build
-   ```
-   
-   **Opción 2: Post-deploy Hook**
-   - Ejecuta manualmente después del primer despliegue:
-   ```bash
-   vercel env pull .env.production
-   npm run migrate
-   ```
-
-4. **Configuración de Vercel:**
-   El archivo `vercel.json` ya está configurado con:
-   - Rewrite de todas las rutas a `index.js`
-   - Headers de cache control
-
-### Configuración de Vercel Blob Storage
-
-1. Ve a tu proyecto en Vercel
-2. Navega a Storage → Blob
-3. Crea un nuevo Blob Store
-4. Copia el token `BLOB_READ_WRITE_TOKEN`
-5. Agrégalo a las variables de entorno
+   - `POSTGRES_URL`
+   - `BLOB_READ_WRITE_TOKEN`
+   - `CLAVE_SECRETA`
+   - `NODE_ENV=production`
+3. **Ejecutar Migraciones** (en build command o post-deploy)
+4. **Desplegar**
 
 ## 📜 Scripts Disponibles
 
@@ -451,7 +346,7 @@ portada: File (opcional)
 ```javascript
 {
   user: STRING (PK),
-  contrasenia: STRING (encriptada),
+  contrasenia: STRING (encriptada con AES-256-CBC),
   buffer: STRING (IV para desencriptación)
 }
 ```
@@ -460,6 +355,33 @@ portada: File (opcional)
 
 - `Venta` ↔ `Producto` (Many-to-Many a través de `DetalleVenta`)
 - Foreign keys con `CASCADE` para mantener integridad referencial
+
+## ⚡ Optimizaciones para Vercel
+
+### Conexión a Base de Datos
+
+- **Pool Reducido:** Máximo 1 conexión (óptimo para serverless)
+- **Conexión Lazy:** Solo se autentica cuando es necesario
+- **Timeouts Optimizados:** 10s acquire, 5s idle
+- **Manejo de Errores:** No termina el proceso en caso de error
+- **Reintentos:** Máximo 2 intentos automáticos
+
+### Migraciones
+
+- **Ejecución Async:** Manejo correcto de promesas
+- **Idempotentes:** Seguras de ejecutar múltiples veces
+- **Rastreo:** Tabla `SequelizeMeta` para control
+
+### Almacenamiento
+
+- **Vercel Blob Storage:** Imágenes en la nube
+- **No Filesystem:** Todo en memoria o cloud
+
+### Manejo de Errores
+
+- **Unhandled Rejection:** Capturados y logueados
+- **Uncaught Exception:** Manejo en producción
+- **Pool Errors:** Listeners configurados correctamente
 
 ## 🔧 Troubleshooting
 
@@ -471,6 +393,7 @@ portada: File (opcional)
 - Verifica que `POSTGRES_URL` esté correctamente configurada
 - Asegúrate de que la base de datos permita conexiones desde Vercel
 - Revisa los logs de Vercel para más detalles
+- Verifica que `NODE_ENV=production` esté configurado
 
 ### Error: SequelizeConnectionAcquireTimeoutError
 
@@ -480,6 +403,15 @@ portada: File (opcional)
 - El pool está configurado para 1 conexión máxima (óptimo para serverless)
 - Si persiste, verifica que no haya conexiones colgadas
 - Revisa la configuración en `db/sequelize.js`
+- Asegúrate de que las conexiones se cierren correctamente
+
+### Error: pool.on is not a function
+
+**Problema:** El pool no está inicializado cuando se intenta agregar el listener.
+
+**Solución:**
+- ✅ **Corregido:** El listener se configura después de la autenticación
+- El código maneja correctamente la inicialización lazy del pool
 
 ### Error: Migraciones no ejecutadas
 
@@ -491,6 +423,11 @@ portada: File (opcional)
 npm run migrate
 ```
 
+O agregar al build command en Vercel:
+```bash
+npm install && npm run migrate
+```
+
 ### Error: BLOB_READ_WRITE_TOKEN no configurado
 
 **Problema:** No se pueden subir imágenes.
@@ -498,14 +435,25 @@ npm run migrate
 **Solución:**
 - Verifica que el token esté en las variables de entorno de Vercel
 - Asegúrate de que el Blob Store esté creado en Vercel
+- Revisa los logs para ver el error específico
 
 ### Error: Unhandled Rejection
 
 **Problema:** Errores no capturados terminan el proceso.
 
 **Solución:**
-- El proyecto ya incluye manejo de errores no capturados
+- ✅ **Corregido:** El proyecto incluye manejo de errores no capturados
 - Revisa los logs para identificar el error específico
+- Los errores se loguean pero no terminan el proceso en producción
+
+### Error: sync() ejecutándose en producción
+
+**Problema:** Se intenta sincronizar tablas en producción.
+
+**Solución:**
+- ✅ **Corregido:** `sync()` solo se ejecuta en desarrollo con `SYNC_DB=true`
+- En producción, solo se asegura la conexión sin sync
+- Las tablas deben crearse con migraciones
 
 ## 📝 Notas Adicionales
 
@@ -514,6 +462,45 @@ npm run migrate
 - **Paginación:** Por defecto, 4 productos por página
 - **Tema:** El tema claro/oscuro se guarda en localStorage del navegador
 - **Imágenes:** En producción, las imágenes se almacenan en Vercel Blob Storage
+- **Conexión Lazy:** La conexión a la base de datos se establece solo cuando es necesario
+- **UI Mejorada:** Landing page con diseño centrado y responsive
+
+## 📚 Documentación Adicional
+
+- [`docs/API.md`](docs/API.md) - Documentación completa de la API
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - Arquitectura del proyecto
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) - Guía detallada de despliegue
+- [`db/migrations/README.md`](db/migrations/README.md) - Guía de migraciones
+
+## 📋 Changelog
+
+### Versión 1.0.0 (Enero 2025)
+
+#### ✨ Nuevas Características
+- Sistema de migraciones completo
+- Optimización para Vercel serverless
+- Conexión lazy a base de datos
+- Manejo robusto de errores
+- UI mejorada con diseño centrado
+
+#### 🐛 Correcciones
+- Fix: `pool.on is not a function` - Listener configurado correctamente
+- Fix: `sync()` ejecutándose en producción - Solo en desarrollo
+- Fix: Timeouts de conexión - Pool optimizado
+- Fix: Migraciones sin await - Manejo correcto de async/await
+- Fix: Destructuring incorrecto en QueryTypes.SELECT
+
+#### ⚡ Optimizaciones
+- Pool reducido a 1 conexión para serverless
+- Timeouts optimizados (10s acquire, 5s idle)
+- Conexión lazy para evitar timeouts en inicio
+- Manejo de errores no bloqueante
+
+#### 📝 Documentación
+- Documentación completa de API
+- Guía de despliegue detallada
+- Documentación de arquitectura
+- README actualizado
 
 ## 👥 Autores
 
@@ -526,4 +513,5 @@ Este proyecto es parte de un trabajo práctico académico.
 ---
 
 **Versión:** 1.0.0  
-**Última actualización:** Enero 2025
+**Última actualización:** Enero 2025  
+**Estado:** ✅ Producción - Estable
