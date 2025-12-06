@@ -7,15 +7,38 @@
   font-family: "Poppins", sans-serif;
 }
 
+html, body {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #ececec;
   transition: background-color 0.2s, color 0.2s;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
 }
 body.dark-mode {
   background-color: #242124;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#containerMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
 }
 
 .toastify {
@@ -42,6 +65,8 @@ body.dark-mode .toastify {
   justify-content: flex-end;
   align-items: center;
   padding-right: 15px;
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 #iconoToggler {
@@ -60,11 +85,15 @@ body.dark-mode .toastify {
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin: 0;
+  padding: 10px 0;
+  flex-shrink: 0;
 }
 
 #bienvenida h1 {
   margin: 0;
   width: 100%;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 body.dark-mode #bienvenida {
@@ -73,18 +102,22 @@ body.dark-mode #bienvenida {
 
 #imagen {
   text-align: center;
+  margin: 0;
+  padding: 5px 0;
+  flex-shrink: 0;
 }
 
 #imagen img {
-  height: 150px;
-  width: 150px;
+  height: 80px;
+  width: 80px;
 }
 
 .form {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 48px;
+  margin: 10px 0;
+  flex-shrink: 0;
 }
 
 #formulario {
@@ -93,8 +126,11 @@ body.dark-mode #bienvenida {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 500px;
-  height: 300px;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  min-height: 220px;
+  padding: 15px 20px;
   border-radius: 20px;
   border: 5px solid #242124;
 }
@@ -104,8 +140,24 @@ body.dark-mode #formulario {
 }
 
 #formulario h3 {
-  margin-top: 20px;
+  margin: 0;
   text-align: center;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  margin-bottom: 10px;
+}
+
+#formulario .mb-3 {
+  margin-bottom: 10px !important;
+  margin-top: 5px !important;
+}
+
+#formulario .admin {
+  margin: 5px 0;
+}
+
+#formulario .admin h5 {
+  margin: 0;
+  font-size: clamp(0.85rem, 2vw, 1rem);
 }
 
 body.dark-mode #formulario h3 {
@@ -159,8 +211,13 @@ body.dark-mode .btn-primary {
 
 footer {
   text-align: center;
-  bottom: 0;
-  margin-top: auto;
+  flex-shrink: 0;
+  padding: 5px 0;
+  font-size: 0.85rem;
+}
+
+footer p {
+  margin: 0;
 }
 
 @media (max-width: 550px) {
@@ -168,6 +225,16 @@ footer {
     display: none;
   }
   .form {
-    margin-top: 15px;
+    margin: 5px 0;
+  }
+  #formulario {
+    padding: 10px 15px;
+    min-height: 200px;
+  }
+  #containerMain {
+    padding: 5px;
+  }
+  #bienvenida h1 {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
   }
 }
