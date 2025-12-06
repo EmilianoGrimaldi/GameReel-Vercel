@@ -187,4 +187,3 @@ if (require.main === module) {
 }
 
 module.exports = { runAllMigrations, getSequelizeForMigrations };
-
