@@ -183,7 +183,15 @@ async function runAllMigrations() {
 
 // Ejecutar si se llama directamente
 if (require.main === module) {
-  runAllMigrations();
+  (async () => {
+    try {
+      await runAllMigrations();
+      process.exit(0);
+    } catch (error) {
+      console.error('Error fatal al ejecutar migraciones:', error);
+      process.exit(1);
+    }
+  })();
 }
 
 module.exports = { runAllMigrations, getSequelizeForMigrations };
