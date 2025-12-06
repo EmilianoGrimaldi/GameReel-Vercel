@@ -39,11 +39,19 @@ body.dark-mode .toastify {
 
 #icono {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 15px;
 }
 
 #iconoToggler {
   font-size: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#iconoToggler:hover {
+  transform: scale(1.1);
 }
 
 #bienvenida {
