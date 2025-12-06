@@ -22,6 +22,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "migrate": "node db/runMigrations.js",
+    "migrate:up": "node db/runMigrations.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

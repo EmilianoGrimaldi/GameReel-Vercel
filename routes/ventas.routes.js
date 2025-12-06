@@ -5,8 +5,9 @@ const DetalleVenta = require("../entity/detalleVenta.entity.js");
 
 router.post("/", async (req, res) => {
   try {
-    await VentaSequelize.sync();
-    await DetalleVenta.sync();
+    // No hacer sync en producción - las tablas ya deben existir
+    // await VentaSequelize.sync();
+    // await DetalleVenta.sync();
     const { usuario, carrito } = req.body;
 
     let totalVenta = 0;
